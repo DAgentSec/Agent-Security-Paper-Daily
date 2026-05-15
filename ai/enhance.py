@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 import langchain_core.exceptions
 from langchain_openai import ChatOpenAI
-from langchain.prompts import (
+from langchain_core.prompts import (
     ChatPromptTemplate,
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,

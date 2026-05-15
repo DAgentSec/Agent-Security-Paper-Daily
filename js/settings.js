@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSettings();
   initEventListeners();
   fetchGitHubStats();
+  initGitHubToken();
 });
 
 // 初始化设置，从localStorage加载已保存的设置
@@ -396,6 +397,9 @@ function saveSettings() {
   // 保存设置到localStorage
   localStorage.setItem('preferredKeywords', JSON.stringify(keywords));
   localStorage.setItem('preferredAuthors', JSON.stringify(authors));
+
+  // 保存 GitHub Token
+  saveGitHubToken();
   
   // 显示保存成功提示，添加成功图标
   showNotification('Settings saved successfully!', 'success');
@@ -414,6 +418,9 @@ function resetSettings() {
   // 显示空标签消息
   showEmptyTagMessage();
   showEmptyAuthorMessage();
+
+  // 清除 GitHub Token
+  resetGitHubToken();
   
   // 显示重置成功提示
   showNotification('Settings reset to default!', 'info');
@@ -479,6 +486,59 @@ function showNotification(message, type = 'success') {
     }, 300);
   }, 3000);
 }
+
+// ── GitHub Token management ──────────────────────────────────────────────────
+
+function initGitHubToken() {
+  const input = document.getElementById('githubTokenInput');
+  const toggleBtn = document.getElementById('toggleTokenVisibility');
+  const statusEl = document.getElementById('tokenStatus');
+  if (!input) return;
+
+  const saved = localStorage.getItem('githubToken') || '';
+  if (saved) {
+    input.value = saved;
+    showTokenStatus(statusEl, 'Token 已保存（' + saved.slice(0, 6) + '…）', 'ok');
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      input.type = input.type === 'password' ? 'text' : 'password';
+    });
+  }
+}
+
+function saveGitHubToken() {
+  const input = document.getElementById('githubTokenInput');
+  const statusEl = document.getElementById('tokenStatus');
+  if (!input) return;
+  const val = input.value.trim();
+  if (val) {
+    localStorage.setItem('githubToken', val);
+    showTokenStatus(statusEl, '✓ Token 已保存', 'ok');
+  } else {
+    localStorage.removeItem('githubToken');
+    showTokenStatus(statusEl, 'Token 已清除', 'warn');
+  }
+}
+
+function resetGitHubToken() {
+  localStorage.removeItem('githubToken');
+  const input = document.getElementById('githubTokenInput');
+  const statusEl = document.getElementById('tokenStatus');
+  if (input) input.value = '';
+  showTokenStatus(statusEl, 'Token 已清除', 'warn');
+}
+
+function showTokenStatus(el, msg, type) {
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.color = type === 'ok' ? '#065f46' : '#92400e';
+  setTimeout(() => { el.style.display = 'none'; }, 3000);
+}
+
+// ── GitHub stats ─────────────────────────────────────────────────────────────
 
 // 获取GitHub统计数据
 async function fetchGitHubStats() {

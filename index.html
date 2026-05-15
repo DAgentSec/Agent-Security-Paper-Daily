@@ -52,6 +52,122 @@
             color: #92400e;
             margin-left: 4px;
         }
+        /* ── Submit Paper Modal ── */
+        .submit-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .submit-modal.active { display: flex; }
+        .submit-modal-content {
+            background: var(--card-bg-color, #fff);
+            border-radius: 14px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+            width: 94%;
+            max-width: 620px;
+            max-height: 92vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .submit-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 0;
+        }
+        .submit-modal-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .submit-modal-body { padding: 16px 24px 24px; }
+        .submit-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .submit-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+        .submit-form-group.full { grid-column: 1 / -1; }
+        .submit-form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary, #555);
+        }
+        .submit-form-group label .req { color: #e74c3c; margin-left: 2px; }
+        .submit-input, .submit-select, .submit-textarea {
+            padding: 9px 12px;
+            border: 1.5px solid var(--border-color, #ddd);
+            border-radius: 7px;
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--input-bg, #fff);
+            color: var(--text-color, #333);
+            transition: border-color .2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .submit-input:focus, .submit-select:focus, .submit-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,.15);
+        }
+        .submit-textarea { resize: vertical; min-height: 90px; }
+        .submit-hint {
+            font-size: 11px;
+            color: var(--text-secondary, #888);
+            margin-top: 2px;
+        }
+        .submit-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 6px;
+        }
+        .submit-btn {
+            padding: 9px 22px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: opacity .2s, transform .1s;
+        }
+        .submit-btn:active { transform: translateY(1px); }
+        .submit-btn.primary {
+            background: linear-gradient(135deg,#667eea,#764ba2);
+            color: #fff;
+        }
+        .submit-btn.secondary {
+            background: rgba(100,116,139,.12);
+            color: var(--text-color, #333);
+        }
+        .submit-btn:disabled { opacity: .55; cursor: not-allowed; }
+        .submit-status {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 7px;
+            font-size: 13px;
+            display: none;
+        }
+        .submit-status.success { background: #d1fae5; color: #065f46; display: block; }
+        .submit-status.error   { background: #fee2e2; color: #991b1b; display: block; }
+        .submit-status.info    { background: #e0f2fe; color: #0c4a6e; display: block; }
+        @media (max-width: 520px) {
+            .submit-form-row { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -85,6 +201,20 @@
                             </button>
                         </div>
                     </div>
+                    <!-- Submit Paper -->
+                    <button id="submitPaperBtn" class="icon-button" title="Submit Paper"
+                            style="border:none;background:transparent;cursor:pointer;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4C7.58 4 4 7.58 4 12s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm4 9h-3v3h-2v-3H8v-2h3V8h2v3h3v2z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <!-- Settings -->
+                    <a href="settings.html" class="icon-button" title="Settings"
+                       style="display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor"/>
+                        </svg>
+                    </a>
                     <button id="logoutButton" onclick="Auth.logout()" class="icon-button" title="Logout" style="border:none;background:transparent;cursor:pointer;color:#e74c3c;display:none;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.59L17 17L22 12L17 7ZM4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z" fill="currentColor"/>
@@ -199,6 +329,82 @@
                <a href="https://github.com/DAgentSec/Agent-Security-Paper-Daily" target="_blank">GitHub</a></p>
         </div>
     </footer>
+
+    <!-- ── Submit Paper Modal ── -->
+    <div class="submit-modal" id="submitModal">
+        <div class="submit-modal-content">
+            <div class="submit-modal-header">
+                <h2>Submit Paper</h2>
+                <button id="closeSubmitModal" class="icon-button"
+                        style="border:none;background:transparent;cursor:pointer;font-size:22px;line-height:1;">✕</button>
+            </div>
+            <div class="submit-modal-body">
+                <p style="font-size:13px;color:var(--text-secondary,#666);margin:0 0 16px;">
+                    提交后将通过 GitHub API 写入 <code>tickets/pending/</code>，下次 workflow 运行时自动合并。
+                    请先在 <a href="settings.html">Settings</a> 页保存 GitHub PAT（需 <code>contents: write</code> 权限）。
+                </p>
+                <form id="submitPaperForm" autocomplete="off">
+                    <div class="submit-form-group">
+                        <label>Title <span class="req">*</span></label>
+                        <input id="sp_title" class="submit-input" type="text" placeholder="Full paper title" required>
+                    </div>
+                    <div class="submit-form-row">
+                        <div class="submit-form-group">
+                            <label>PDF URL</label>
+                            <input id="sp_pdf" class="submit-input" type="url" placeholder="https://...">
+                        </div>
+                        <div class="submit-form-group">
+                            <label>Abstract URL</label>
+                            <input id="sp_abs" class="submit-input" type="url" placeholder="https://...">
+                        </div>
+                    </div>
+                    <div class="submit-form-group">
+                        <label>Authors</label>
+                        <input id="sp_authors" class="submit-input" type="text" placeholder="Author One, Author Two">
+                        <span class="submit-hint">Comma-separated</span>
+                    </div>
+                    <div class="submit-form-group">
+                        <label>Abstract / Summary</label>
+                        <textarea id="sp_summary" class="submit-textarea" placeholder="Paste abstract here…"></textarea>
+                    </div>
+                    <div class="submit-form-row">
+                        <div class="submit-form-group">
+                            <label>Venue <span class="req">*</span></label>
+                            <input id="sp_venue" class="submit-input" list="venueList" placeholder="CCS / S&P / ICML …" required>
+                            <datalist id="venueList">
+                                <option value="S&P"><option value="CCS"><option value="USENIX Security">
+                                <option value="NDSS"><option value="ICSE"><option value="FSE">
+                                <option value="ASE"><option value="ISSTA"><option value="PLDI">
+                                <option value="NeurIPS"><option value="ICML"><option value="ICLR">
+                                <option value="ACL"><option value="EMNLP"><option value="NAACL">
+                            </datalist>
+                        </div>
+                        <div class="submit-form-group">
+                            <label>Year <span class="req">*</span></label>
+                            <input id="sp_year" class="submit-input" type="number"
+                                   min="2000" max="2030" placeholder="2024" required>
+                        </div>
+                    </div>
+                    <div class="submit-form-group">
+                        <label>Catalog <span class="req">*</span></label>
+                        <select id="sp_catalog" class="submit-select" required>
+                            <option value="">-- Select --</option>
+                            <option value="Agent Sec">Agent Sec — Agent 安全攻防</option>
+                            <option value="Agent for Sec">Agent for Sec — Agent 赋能安全工具</option>
+                            <option value="Infra">Infra — 基础设施安全</option>
+                            <option value="Frontier Sec">Frontier Sec — 前沿安全</option>
+                            <option value="Model">Model — 模型研究</option>
+                        </select>
+                    </div>
+                    <div id="submitStatus" class="submit-status"></div>
+                    <div class="submit-actions">
+                        <button type="button" class="submit-btn secondary" id="cancelSubmitBtn">Cancel</button>
+                        <button type="submit" class="submit-btn primary" id="doSubmitBtn">Submit via GitHub API</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <button id="backToTop" class="back-to-top" title="Back to top">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -682,3 +682,143 @@ function togglePdfSize(button) {
         overlay.addEventListener('click', () => togglePdfSize(button));
     }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Submit Paper via GitHub API
+// ─────────────────────────────────────────────────────────────────────────────
+
+function openSubmitModal() {
+    document.getElementById('submitModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('submitStatus').className = 'submit-status';
+    document.getElementById('submitStatus').textContent = '';
+    // Set default year to current year
+    const yearInput = document.getElementById('sp_year');
+    if (!yearInput.value) yearInput.value = new Date().getFullYear();
+}
+
+function closeSubmitModal() {
+    document.getElementById('submitModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function slugify(text) {
+    return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+}
+
+async function submitPaper(e) {
+    e.preventDefault();
+    const statusEl = document.getElementById('submitStatus');
+    const submitBtn = document.getElementById('doSubmitBtn');
+
+    const title   = document.getElementById('sp_title').value.trim();
+    const pdf     = document.getElementById('sp_pdf').value.trim();
+    const abs     = document.getElementById('sp_abs').value.trim();
+    const authors = document.getElementById('sp_authors').value.trim();
+    const summary = document.getElementById('sp_summary').value.trim();
+    const venue   = document.getElementById('sp_venue').value.trim();
+    const year    = parseInt(document.getElementById('sp_year').value, 10);
+    const catalog = document.getElementById('sp_catalog').value;
+
+    if (!pdf && !abs) {
+        statusEl.className = 'submit-status error';
+        statusEl.textContent = '请至少填写 PDF URL 或 Abstract URL 中的一个。';
+        return;
+    }
+
+    const token = localStorage.getItem('githubToken') || '';
+    if (!token) {
+        statusEl.className = 'submit-status error';
+        statusEl.innerHTML = '未找到 GitHub Token。请先前往 <a href="settings.html">Settings</a> 页面保存 PAT。';
+        return;
+    }
+
+    const ticket = {
+        id: `${slugify(venue)}-${year}-${slugify(title)}`,
+        title,
+        authors: authors ? authors.split(',').map(s => s.trim()).filter(Boolean) : [],
+        summary,
+        pdf: pdf || undefined,
+        abs: abs || undefined,
+        venue_name: venue,
+        venue_year: year,
+        catalog,
+        categories: [],
+    };
+    // Remove undefined fields
+    Object.keys(ticket).forEach(k => ticket[k] === undefined && delete ticket[k]);
+
+    const filename = `${ticket.id}.json`;
+    const path     = `tickets/pending/${filename}`;
+    const content  = btoa(unescape(encodeURIComponent(JSON.stringify(ticket, null, 2))));
+
+    submitBtn.disabled = true;
+    statusEl.className = 'submit-status info';
+    statusEl.textContent = '正在提交到 GitHub…';
+
+    try {
+        const apiBase = `https://api.github.com/repos/${DATA_CONFIG.repoOwner}/${DATA_CONFIG.repoName}/contents/${path}`;
+        const headers = {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+        };
+
+        // Check if file already exists (to get SHA for update)
+        let sha;
+        const checkResp = await fetch(apiBase, { headers });
+        if (checkResp.ok) {
+            const existing = await checkResp.json();
+            sha = existing.sha;
+        }
+
+        const body = {
+            message: `ticket: add paper "${title.slice(0, 60)}"`,
+            content,
+            ...(sha ? { sha } : {}),
+        };
+
+        const resp = await fetch(apiBase, {
+            method: 'PUT',
+            headers,
+            body: JSON.stringify(body),
+        });
+
+        if (resp.ok) {
+            statusEl.className = 'submit-status success';
+            statusEl.textContent = `✓ 提交成功！文件 ${filename} 已写入 tickets/pending/。下次 workflow 运行时将自动处理。`;
+            document.getElementById('submitPaperForm').reset();
+        } else {
+            const err = await resp.json().catch(() => ({}));
+            statusEl.className = 'submit-status error';
+            statusEl.textContent = `提交失败 (${resp.status})：${err.message || '未知错误'}。请检查 PAT 权限（需要 Contents: Write）。`;
+        }
+    } catch (err) {
+        statusEl.className = 'submit-status error';
+        statusEl.textContent = `网络错误：${err.message}`;
+    } finally {
+        submitBtn.disabled = false;
+    }
+}
+
+// Register submit modal event listeners after DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn = document.getElementById('submitPaperBtn');
+    if (submitBtn) submitBtn.addEventListener('click', openSubmitModal);
+
+    const closeBtn = document.getElementById('closeSubmitModal');
+    if (closeBtn) closeBtn.addEventListener('click', closeSubmitModal);
+
+    const cancelBtn = document.getElementById('cancelSubmitBtn');
+    if (cancelBtn) cancelBtn.addEventListener('click', closeSubmitModal);
+
+    const submitModal = document.getElementById('submitModal');
+    if (submitModal) {
+        submitModal.addEventListener('click', e => {
+            if (e.target === submitModal) closeSubmitModal();
+        });
+    }
+
+    const form = document.getElementById('submitPaperForm');
+    if (form) form.addEventListener('submit', submitPaper);
+});

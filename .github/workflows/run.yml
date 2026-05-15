@@ -45,6 +45,11 @@ jobs:
         sed -i "s/PLACEHOLDER_REPO_OWNER/${REPO_OWNER}/g" index.html
         sed -i "s/PLACEHOLDER_REPO_NAME/${REPO_NAME}/g"   index.html
 
+        if [ -f "settings.html" ]; then
+          sed -i "s/PLACEHOLDER_REPO_OWNER/${REPO_OWNER}/g" settings.html
+          sed -i "s/PLACEHOLDER_REPO_NAME/${REPO_NAME}/g"   settings.html
+        fi
+
         sed -i "s/PLACEHOLDER_PASSWORD_HASH/${PASSWORD_HASH}/" js/auth-config.js
 
     - name: Commit and push static site to main

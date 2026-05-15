@@ -5,7 +5,7 @@ from typing import Optional
 
 
 def _load_rules() -> dict:
-    config_path = os.path.join(os.path.dirname(__file__), "..", "..", "..", "config", "venues.yaml")
+    config_path = os.path.join(os.path.dirname(__file__), "..", "..", "config", "venues.yaml")
     config_path = os.path.normpath(config_path)
     with open(config_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)

@@ -9,6 +9,8 @@ else
     export LANGUAGE="${LANGUAGE:-Chinese}"
     export CATEGORIES="${CATEGORIES:-cs.CR,cs.AI}"
     export MODEL_NAME="${MODEL_NAME:-deepseek-v4-flash}"
+    export MAX_PAPERS="${MAX_PAPERS:-0}"
+    export KEYWORDS="${KEYWORDS:-}"
     export OPENAI_BASE_URL="${OPENAI_BASE_URL:-https://api.openai.com/v1}"
 fi
 

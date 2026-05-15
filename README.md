@@ -32,6 +32,8 @@ Go to **Settings → Secrets and variables → Actions → Variables** and add:
 | `MODEL_NAME` | `deepseek-v4-flash` | DeepSeek model to use for AI summaries |
 | `LANGUAGE` | `Chinese` | Output language for AI summaries (`Chinese` or `English`) |
 | `CATEGORIES` | `cs.CR,cs.AI,cs.LG,cs.CL` | Comma-separated arXiv categories to scrape |
+| `MAX_PAPERS` | `10` | Max papers **per category** per day (0 = no limit) |
+| `KEYWORDS` | `agent,jailbreak,prompt injection,LLM security` | Comma-separated keywords — papers matching more keywords are fetched first within the `MAX_PAPERS` quota |
 | `NAME` | `arxiv-bot` | Git commit author name |
 | `EMAIL` | `bot@example.com` | Git commit author email |
 
@@ -133,6 +135,8 @@ Tickets are validated and merged into the daily pipeline on the next workflow ru
 | `MODEL_NAME` | `deepseek-v4-flash` | AI model for summaries |
 | `LANGUAGE` | `Chinese` | Summary output language |
 | `CATEGORIES` | `cs.CR,cs.AI` | arXiv categories to scrape |
+| `MAX_PAPERS` | `10` | Max papers per category (0 = no limit) |
+| `KEYWORDS` | `agent,jailbreak,LLM security` | Keyword priority filter (comma-separated) |
 | `NAME` | — | Git commit author name |
 | `EMAIL` | — | Git commit author email |
 

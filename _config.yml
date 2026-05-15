@@ -1,0 +1,11 @@
+exclude:
+  - data/*.md
+  - tickets/
+  - daily_arxiv/
+  - ai/
+  - to_md/
+  - config/
+  - ref/
+  - run.sh
+  - pyproject.toml
+  - task.md

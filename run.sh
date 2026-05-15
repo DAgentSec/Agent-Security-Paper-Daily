@@ -8,7 +8,7 @@ else
     PARTIAL_MODE=false
     export LANGUAGE="${LANGUAGE:-Chinese}"
     export CATEGORIES="${CATEGORIES:-cs.CR,cs.AI}"
-    export MODEL_NAME="${MODEL_NAME:-deepseek-chat}"
+    export MODEL_NAME="${MODEL_NAME:-deepseek-v4-flash}"
     export OPENAI_BASE_URL="${OPENAI_BASE_URL:-https://api.openai.com/v1}"
 fi
 

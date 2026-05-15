@@ -1,6 +1,6 @@
 const DATA_CONFIG = {
-    repoOwner: 'PLACEHOLDER_REPO_OWNER',
-    repoName: 'PLACEHOLDER_REPO_NAME',
+    repoOwner: 'DAgentSec',
+    repoName: 'Agent-Security-Paper-Daily',
     dataBranch: 'data',
 
     getDataBaseUrl() {

@@ -1,0 +1,193 @@
+catalogs:
+  - Agent Sec
+  - Agent for Sec
+  - Infra
+  - Frontier Sec
+  - Model
+
+catalog_keywords:
+  "Agent Sec":
+    - jailbreak
+    - prompt injection
+    - tool abuse
+    - agent attack
+    - adversarial agent
+    - red team
+    - backdoor
+    - trojan
+    - data poisoning
+    - agent manipulation
+    - agent security
+    - llm security
+    - multi-agent attack
+    - goal hijacking
+    - memory poisoning
+    - agentic attack
+    - agent misuse
+    - reward hacking
+    - unsafe agent
+  "Agent for Sec":
+    - vulnerability detection
+    - vulnerability analysis
+    - vulnerability repair
+    - threat hunting
+    - malware analysis
+    - intrusion detection
+    - penetration testing
+    - pentest
+    - ctf
+    - bug bounty
+    - code security
+    - exploit generation
+    - sast
+    - dast
+    - security audit
+    - automated security testing
+    - fuzzing
+    - patch generation
+    - security agent
+    - llm for security
+  "Infra":
+    - benchmark
+    - evaluation framework
+    - evaluation platform
+    - sandbox
+    - orchestration
+    - observability
+    - monitoring
+    - agent framework
+    - llm framework
+    - tool use framework
+    - agent infrastructure
+    - agent scaffold
+    - agent runtime
+    - agent evaluation
+    - agent testing
+    - agent tracing
+    - multi-agent system
+    - agentic system
+    - llm agent framework
+  "Frontier Sec":
+    - novel attack
+    - emerging threat
+    - attack surface
+    - cross-domain attack
+    - supply chain
+    - hardware security
+    - side channel
+    - physical adversarial
+    - new vulnerability class
+    - zero-day
+    - frontier threat
+  "Model":
+    - alignment
+    - robustness
+    - fine-tuning
+    - pretraining
+    - model capability
+    - emergent ability
+    - rlhf
+    - reward model
+    - scaling law
+    - chain of thought
+    - reasoning
+    - instruction tuning
+    - constitutional ai
+    - safety training
+    - model safety
+
+venues:
+  security:
+    - name: S&P
+      aliases:
+        - "IEEE S&P"
+        - "IEEE Symposium on Security and Privacy"
+        - "sp"
+        - "s&p"
+        - "oakland"
+        - "ieee security and privacy"
+    - name: USENIX Security
+      aliases:
+        - "usenix security"
+        - "USENIX Security Symposium"
+        - "usenixsec"
+        - "usenix"
+    - name: CCS
+      aliases:
+        - "ACM CCS"
+        - "ACM Conference on Computer and Communications Security"
+        - "acm ccs"
+        - "ccs"
+    - name: NDSS
+      aliases:
+        - "Network and Distributed System Security"
+        - "ndss symposium"
+        - "ndss"
+  se:
+    - name: ICSE
+      aliases:
+        - "International Conference on Software Engineering"
+        - "icse"
+    - name: FSE
+      aliases:
+        - "ESEC/FSE"
+        - "Foundations of Software Engineering"
+        - "European Software Engineering Conference"
+        - "fse"
+        - "esec"
+        - "esec/fse"
+    - name: ASE
+      aliases:
+        - "Automated Software Engineering"
+        - "ase"
+    - name: ISSTA
+      aliases:
+        - "International Symposium on Software Testing and Analysis"
+        - "issta"
+  ai:
+    - name: NeurIPS
+      aliases:
+        - "neurips"
+        - "nips"
+        - "Neural Information Processing Systems"
+    - name: ICML
+      aliases:
+        - "icml"
+        - "International Conference on Machine Learning"
+    - name: ICLR
+      aliases:
+        - "iclr"
+        - "International Conference on Learning Representations"
+    - name: AAAI
+      aliases:
+        - "aaai"
+        - "AAAI Conference on Artificial Intelligence"
+    - name: IJCAI
+      aliases:
+        - "ijcai"
+        - "International Joint Conference on Artificial Intelligence"
+    - name: ACL
+      aliases:
+        - "acl"
+        - "Association for Computational Linguistics"
+        - "Annual Meeting of the ACL"
+    - name: EMNLP
+      aliases:
+        - "emnlp"
+        - "Empirical Methods in Natural Language Processing"
+    - name: NAACL
+      aliases:
+        - "naacl"
+        - "North American Chapter of the ACL"
+    - name: CVPR
+      aliases:
+        - "cvpr"
+        - "Computer Vision and Pattern Recognition"
+    - name: ECCV
+      aliases:
+        - "eccv"
+        - "European Conference on Computer Vision"
+    - name: ICCV
+      aliases:
+        - "iccv"
+        - "International Conference on Computer Vision"

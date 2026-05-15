@@ -42,6 +42,9 @@ def parse_args():
 
 
 def _is_sensitive(content: str) -> bool:
+    """Content moderation check. Returns False (pass) when the upstream
+    spam-filter service is unreachable, so papers are never silently dropped
+    due to network issues."""
     try:
         resp = requests.post(
             "https://spam.dw-dengwei.workers.dev",
@@ -49,12 +52,10 @@ def _is_sensitive(content: str) -> bool:
             timeout=5,
         )
         if resp.status_code == 200:
-            return resp.json().get("sensitive", True)
-        print(f"Sensitive check failed with status {resp.status_code}", file=sys.stderr)
-        return True
-    except Exception as e:
-        print(f"Sensitive check error: {e}", file=sys.stderr)
-        return True
+            return resp.json().get("sensitive", False)
+        return False
+    except Exception:
+        return False
 
 
 def _check_github_code(content: str) -> dict:

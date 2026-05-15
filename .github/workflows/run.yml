@@ -152,6 +152,15 @@ jobs:
 
         python enhance.py --data ../data/${today}.jsonl
 
+        # Guard: fail loudly if AI output is empty (prevents silent data loss)
+        AI_FILE="../data/${today}_AI_enhanced_${{ vars.LANGUAGE }}.jsonl"
+        if [ ! -s "$AI_FILE" ]; then
+          echo "ERROR: AI enhanced file is empty or missing: $AI_FILE"
+          echo "Check OPENAI_API_KEY / OPENAI_BASE_URL secrets and model name."
+          exit 1
+        fi
+        echo "AI enhanced: $(wc -l < $AI_FILE) papers written"
+
     - name: Convert to Markdown
       if: steps.dedup_check.outputs.has_new_content == 'true'
       run: |

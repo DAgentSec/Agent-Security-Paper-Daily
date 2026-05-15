@@ -57,7 +57,7 @@ jobs:
         git config user.email "${{ vars.EMAIL }}"
         git config user.name  "${{ vars.NAME }}"
 
-        git add index.html js/data-config.js js/auth-config.js .nojekyll _config.yml
+        git add index.html login.html settings.html js/data-config.js js/auth-config.js .nojekyll _config.yml
         git add css/ js/ assets/logo.png 2>/dev/null || true
 
         if git diff --staged --quiet; then
@@ -195,6 +195,8 @@ jobs:
         cp assets/file-list.txt /tmp/data_snapshot/assets/ 2>/dev/null || true
 
         rm -rf data/*.jsonl data/*.md assets/file-list.txt 2>/dev/null || true
+
+        git stash --include-untracked 2>/dev/null || true
 
         if git ls-remote --heads origin data | grep -q data; then
           git fetch origin data:data

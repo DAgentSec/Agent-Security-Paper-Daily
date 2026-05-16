@@ -4,6 +4,9 @@ Daily curated papers on Agent Security from arXiv and top conferences (S&P, CCS,
 
 Papers are classified into five catalogs: **Agent Sec · Agent for Sec · Infra · Frontier Sec · Model**.
 
+> **Fork / inspired by** [daily-arXiv-ai-enhanced](https://github.com/dw-dengwei/daily-arXiv-ai-enhanced) by [@dw-dengwei](https://github.com/dw-dengwei).  
+> Extended with multi-catalog classification, conference paper tickets, keyword-based prioritization, and an Agent Security focus.
+
 ---
 
 ## Quick Setup

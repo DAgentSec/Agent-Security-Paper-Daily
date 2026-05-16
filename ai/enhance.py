@@ -140,7 +140,7 @@ def process_single_item(chain, item: Dict, language: str) -> Optional[Dict]:
 
 
 def process_all_items(data: List[Dict], model_name: str, language: str, max_workers: int) -> List[Optional[Dict]]:
-    llm = ChatOpenAI(model=model_name).with_structured_output(Structure, method="function_calling")
+    llm = ChatOpenAI(model=model_name).with_structured_output(Structure, method="json_mode")
     print(f"Connect to: {model_name}", file=sys.stderr)
 
     prompt_template = ChatPromptTemplate.from_messages([

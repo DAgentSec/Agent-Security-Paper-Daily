@@ -2,6 +2,8 @@
 
 Daily curated papers on Agent Security from arXiv and top conferences (S&P, CCS, USENIX, NeurIPS, …), enhanced with AI-generated structured summaries.
 
+Please visit https://dagentsec.github.io/Agent-Security-Paper-Daily for daily use. (Password: agentsec)
+
 Papers are classified into five catalogs: **Agent Sec · Agent for Sec · Infra · Frontier Sec · Model**.
 
 > **Fork / inspired by** [daily-arXiv-ai-enhanced](https://github.com/dw-dengwei/daily-arXiv-ai-enhanced) by [@dw-dengwei](https://github.com/dw-dengwei).  
